@@ -4,7 +4,6 @@ export interface IStateprops {
 }
 const States: React.FC<IStateprops> = ({ selectedLocation }) => {
   const [selectState, setSelectedState] = React.useState("");
-  const [isHighlight, setIsHighlight] = React.useState(false);
   //  https://taxadda.com/professional-tax-in-india/
 
   const states = [
@@ -28,14 +27,12 @@ const States: React.FC<IStateprops> = ({ selectedLocation }) => {
     "West Bengal",
   ];
   const selectionHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("is: " + e.target.value);
     if (e.target.value !== "") {
       setSelectedState(e.target.value);
       selectedLocation(e.target.value);
-      setIsHighlight(false);
     } else if (e.target.value === "") {
       setSelectedState("Select a city");
-      setIsHighlight(true);
+      selectedLocation(e.target.value);
     }
   };
   return (

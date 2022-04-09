@@ -7,7 +7,7 @@ import Variablepay from "../components/Variablepay";
 import PaySlip from "../components/PaySlip";
 import ProfessionalTax from "../components/ProfessionalTax";
 import { stateContext } from "./_app";
-export interface IHomeProps {}
+export interface IHomeProps { }
 const Home: NextPage<IHomeProps> = () => {
   const [isCTC, setCTC] = React.useState(false);
   const [isGross, setGross] = React.useState(false);
@@ -31,27 +31,41 @@ const Home: NextPage<IHomeProps> = () => {
   ] = React.useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
   const CTCHandler = () => {
-    selectedState !== "" ? setCTC(true) : alert("Please your city!");
+    selectedState !== "" ? setCTC(true) : alert("Please choose your city!");
     setGross(false);
+    annualPackage!=="" && clickHandler();
   };
 
   const GrossHandler = () => {
+    selectedState !== "" ? setGross(true) : alert("Please choose your city!");
     setCTC(false);
-    selectedState !== "" ? setGross(true) : alert("Please your city!");
+    annualPackage!=="" && clickHandler();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  React.useEffect(() => {
+    if (selectedState === "") {
+      setCTC(false);
+      setGross(false);
+    }
+  }, [selectedState]);
+
+  const variableHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === '') {
+      setVariable('0');
+    }
     setVariable(e.target.value);
   };
 
   const packageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAnnualPackage(e.target.value);
   };
+  const disable = isCTC || isGross ? false : true;
 
   const clickHandler = () => {
+    console.log('triggered');
     let GrossPackage =
-      variable !== ""
-        ? +annualPackage - (+annualPackage * +variable) / 100
+      isCTC
+        ? +annualPackage - (+annualPackage * (+variable / 100))
         : +annualPackage;
     let Annual_Basic_Salary = Math.round(GrossPackage * (40 / 100)); //Annual basic salary is 40% of gross
     let Annual_HRA = Math.round(Annual_Basic_Salary * (40 / 100)); // Annual HRA is 40% of  annual basic salary
@@ -97,7 +111,7 @@ const Home: NextPage<IHomeProps> = () => {
   };
   return (
     <>
-      <div className="container w-4/5 mx-auto my-10 text-center rounded-md shadow-lg md:w-1/2 bg-zinc-600">
+      <div className="container w-4/5 mx-auto my-10 text-center rounded-md shadow-lg md:w-1/2 bg-zinc-800">
         <h2 className="p-3 text-2xl font-medium underline shadow-sm">
           Choose One:
         </h2>
@@ -116,7 +130,7 @@ const Home: NextPage<IHomeProps> = () => {
         {/* Input */}
         <Variablepay
           payValue={variable}
-          changeHandler={handleChange}
+          changeHandler={variableHandler}
           isCTCChecked={isCTC}
         />
         <Annualpackage pack={annualPackage} changePackage={packageHandler} />
@@ -125,6 +139,8 @@ const Home: NextPage<IHomeProps> = () => {
           onClick={clickHandler}
           isCTCChecked={isCTC}
           isGrossChecked={isGross}
+          btnText='Show PaySlip'
+          disabled={disable}
         />
       </div>
       <div>
