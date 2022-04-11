@@ -53,6 +53,7 @@ const Home: NextPage<IHomeProps> = () => {
     if (e.target.value === '') {
       setVariable('0');
     }
+    e.target.value.length>2 && alert('Please check the Variable Pay %');
     setVariable(e.target.value);
   };
 
@@ -62,11 +63,13 @@ const Home: NextPage<IHomeProps> = () => {
   const disable = isCTC || isGross ? false : true;
 
   const clickHandler = () => {
-    console.log('triggered');
+    let Annual_Package=Number(annualPackage.replace(/[^0-9.-]+/g,""));
+    let Variable_Pay= Number(variable);
+    console.log(Annual_Package);
     let GrossPackage =
       isCTC
-        ? +annualPackage - (+annualPackage * (+variable / 100))
-        : +annualPackage;
+        ? Annual_Package - (Annual_Package * (Variable_Pay / 100))
+        : Annual_Package;
     let Annual_Basic_Salary = Math.round(GrossPackage * (40 / 100)); //Annual basic salary is 40% of gross
     let Annual_HRA = Math.round(Annual_Basic_Salary * (40 / 100)); // Annual HRA is 40% of  annual basic salary
     let Annual_Provident_Fund = Math.round(Annual_Basic_Salary * (12 / 100)); // Annual PF is 12% of annual basic salary

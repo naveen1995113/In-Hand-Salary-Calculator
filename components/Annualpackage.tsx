@@ -5,20 +5,26 @@ export interface IAnnualprops {
   pack: string;
   changePackage: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const Annualpackage: React.FC<IAnnualprops> = ({ pack, changePackage,isCTCChecked,isGrossChecked }) => {
+const Annualpackage: React.FC<IAnnualprops> = ({
+  pack,
+  changePackage,
+  isCTCChecked,
+  isGrossChecked,
+}) => {
   return (
     <>
-    {
-      isCTCChecked || isGrossChecked ? <div className="my-6">
-      <label className="pr-2 text-lg tracking-wide">Annual Package</label>
-      <input
-        value={pack}
-        onChange={changePackage}
-        className="p-1 rounded-md outline-none text-mb1"
-        placeholder="Enter Package"
-      />
-    </div>:null
-    }
+      {isCTCChecked || isGrossChecked ? (
+        <div className="my-6">
+          <label className="pr-2 text-lg tracking-wide">Annual Package</label>
+          <input
+            type="text"
+            value={pack}
+            onChange={changePackage}
+            className="p-1 rounded-md outline-none text-mb1"
+            placeholder="Enter Package"
+          />
+        </div>
+      ) : null}
     </>
   );
 };
