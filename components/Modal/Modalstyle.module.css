@@ -26,8 +26,9 @@
 .modal{
     padding: 28px;
     border-radius: 6px;
-    color:#000;
-    background-color: #fff;
+    color:#fff;
+    background: #08526D;
+    background: radial-gradient(to bottom right, #08526D, #14015E);
     width: 700px;
     box-shadow:rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     transform: translateY(-200px);
