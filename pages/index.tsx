@@ -133,7 +133,8 @@ const Home: NextPage<IHomeProps> = () => {
           changeHandler={variableHandler}
           isCTCChecked={isCTC}
         />
-        <Annualpackage pack={annualPackage} changePackage={packageHandler} />
+        <Annualpackage pack={annualPackage} changePackage={packageHandler} isCTCChecked={isCTC}
+          isGrossChecked={isGross}/>
         {/* Submit button */}
         <Button
           onClick={clickHandler}
