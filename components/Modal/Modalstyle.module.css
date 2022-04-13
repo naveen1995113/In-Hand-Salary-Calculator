@@ -4,9 +4,7 @@
     bottom:0;
     left:0;
     right:0;
-    width:100vw;
-    height:100vh;
-    background-color:rgba(0,0,0,0.63);
+    background-color:rgba(0,0,0,0.6);
     pointer-events: none;
     display: flex;
     justify-content: center;
@@ -24,12 +22,14 @@
     transition: all 0.3s ease-in-out;
 }
 .modal{
+    overflow:auto;
+    margin:10;
     padding: 28px;
     border-radius: 6px;
     color:#fff;
     background: #08526D;
     background: radial-gradient(to bottom right, #08526D, #14015E);
-    width: 700px;
+    max-width: 700px;
     box-shadow:rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
     transform: translateY(-200px);
     transition: all 0.3s ease-in-out;

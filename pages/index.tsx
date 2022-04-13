@@ -14,6 +14,7 @@ const Home: NextPage<IHomeProps> = () => {
   const [variable, setVariable] = React.useState("");
   const [annualPackage, setAnnualPackage] = React.useState("");
   const [isPaySlip, setIsPaySlip] = React.useState(false);
+  const [annualWarning, setAnnualWarning] = React.useState(false);
   const selectedState = React.useContext(stateContext);
   const [
     [
@@ -29,17 +30,18 @@ const Home: NextPage<IHomeProps> = () => {
     ],
     setPayValues,
   ] = React.useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  let timer: any;
 
   const CTCHandler = () => {
     selectedState !== "" ? setCTC(true) : alert("Please choose your city!");
     setGross(false);
-    annualPackage!=="" && clickHandler();
+    annualPackage !== "" && clickHandler();
   };
 
   const GrossHandler = () => {
     selectedState !== "" ? setGross(true) : alert("Please choose your city!");
     setCTC(false);
-    annualPackage!=="" && clickHandler();
+    annualPackage !== "" && clickHandler();
   };
 
   React.useEffect(() => {
@@ -50,11 +52,12 @@ const Home: NextPage<IHomeProps> = () => {
   }, [selectedState]);
 
   const variableHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === '') {
-      setVariable('0');
+    if (e.target.value === "") {
+      setVariable("0");
     }
-    e.target.value.length>2 && alert('Please check the Variable Pay %');
-    setVariable(e.target.value);
+    if(e.target.value.length <= 2) {
+      setVariable(e.target.value);
+    }
   };
 
   const packageHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,13 +66,12 @@ const Home: NextPage<IHomeProps> = () => {
   const disable = isCTC || isGross ? false : true;
 
   const clickHandler = () => {
-    let Annual_Package=Number(annualPackage.replace(/[^0-9.-]+/g,""));
-    let Variable_Pay= Number(variable);
-    console.log(Annual_Package);
-    let GrossPackage =
-      isCTC
-        ? Annual_Package - (Annual_Package * (Variable_Pay / 100))
-        : Annual_Package;
+    annualPackage.length < 5 ? setAnnualWarning(true) : setAnnualWarning(false);
+    let Annual_Package = Number(annualPackage.replace(/[^0-9.-]+/g, ""));
+    let Variable_Pay = Number(variable);
+    let GrossPackage = isCTC
+      ? Annual_Package - Annual_Package * (Variable_Pay / 100)
+      : Annual_Package;
     let Annual_Basic_Salary = Math.round(GrossPackage * (40 / 100)); //Annual basic salary is 40% of gross
     let Annual_HRA = Math.round(Annual_Basic_Salary * (40 / 100)); // Annual HRA is 40% of  annual basic salary
     let Annual_Provident_Fund = Math.round(Annual_Basic_Salary * (12 / 100)); // Annual PF is 12% of annual basic salary
@@ -136,14 +138,21 @@ const Home: NextPage<IHomeProps> = () => {
           changeHandler={variableHandler}
           isCTCChecked={isCTC}
         />
-        <Annualpackage pack={annualPackage} changePackage={packageHandler} isCTCChecked={isCTC}
-          isGrossChecked={isGross}/>
+        <Annualpackage
+          pack={annualPackage}
+          changePackage={packageHandler}
+          isCTCChecked={isCTC}
+          isGrossChecked={isGross}
+        />
+        {annualWarning && (
+          <div className="text-red-500 my-0.5">
+            * Annual Package should be in lakhs
+          </div>
+        )}
         {/* Submit button */}
         <Button
           onClick={clickHandler}
-          isCTCChecked={isCTC}
-          isGrossChecked={isGross}
-          btnText='Show PaySlip'
+          btnText="Show PaySlip"
           disabled={disable}
         />
       </div>

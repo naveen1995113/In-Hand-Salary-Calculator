@@ -15,7 +15,7 @@ const Annualpackage: React.FC<IAnnualprops> = ({
     <>
       {isCTCChecked || isGrossChecked ? (
         <div className="my-6">
-          <label className="pr-2 text-lg tracking-wide">Annual Package</label>
+          <label className="pr-2 text-lg tracking-wide">Annual Package: </label>
           <input
             type="text"
             value={pack}
